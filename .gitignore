@@ -1,0 +1,37 @@
+# === DEPENDENCIES ===
+node_modules/
+npm-debug.log*
+yarn.lock
+package-lock.json
+
+# === BUILD ARTIFACTS ===
+build/
+dist/
+
+# === GENERATED / MINIFIED FILES ===
+*.min.*
+.cache/
+.tmp/
+
+# === IDE / EDITORS ===
+.idea/
+.vscode/
+*.iml
+
+# === LOGS ===
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# === SYSTEM FILES ===
+.DS_Store
+Thumbs.db
+
+# === ENVIRONMENT ===
+.env
+.env.*
+
+# === COVERAGE / TEST OUTPUT ===
+coverage/
+
