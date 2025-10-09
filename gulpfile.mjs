@@ -132,7 +132,7 @@ export function processStyles() {
         .pipe(postcss(plugins))
         .pipe(gulpIf(!isDevelopment, rename({ suffix: '.min' }))) // получим style.min.css в prod
         .pipe(gulp.dest('build/css', { sourcemaps: isDevelopment }))
-        .pipe(browser.stream());
+        .pipe(server.stream());
 }
 
 /* ---------- SCRIPTS ---------- */
