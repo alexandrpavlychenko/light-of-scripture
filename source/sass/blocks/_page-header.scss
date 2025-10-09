@@ -63,12 +63,19 @@
     padding: 10px 0;
 
     @include mixin.font-main-menu;
+
     letter-spacing: 0.04em;
+    text-decoration: underline;
+    text-decoration-thickness: 0.04em;
+    text-underline-offset: 0.09em;
+    text-decoration-color: #ffffff;
 
     transition: color 0.3s ease;
 
     @media (min-width: var.$tablet-width) {
         letter-spacing: 0.045em;
+        text-decoration: none;
+        text-decoration-skip-ink: auto;
 
         padding: 10px;
     }
