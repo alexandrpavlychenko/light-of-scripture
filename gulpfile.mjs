@@ -11,6 +11,7 @@ import autoprefixer from 'autoprefixer';
 import csso from 'postcss-csso';
 
 import htmlmin from 'gulp-htmlmin';
+import replace from 'gulp-replace';
 import rename from 'gulp-rename';
 import terser from 'gulp-terser';
 
@@ -29,7 +30,7 @@ import browser from 'browser-sync';
 import bemlinter from 'gulp-html-bemlinter';
 import { htmlValidator } from 'gulp-w3c-html-validator';
 
-const sass = gulpSass(dartSass);
+const compileSass = gulpSass(dartSass);
 let isDevelopment = true;
 
 // BrowserSync instance
@@ -42,6 +43,11 @@ export function processMarkup() {
             collapseWhitespace: true,
             conservativeCollapse: true
         })))
+        // ↓↓↓ добавь этот блок
+        .pipe(gulpIf(
+            !isDevelopment,
+            replace(/(["'])\.?\/?css\/style\.css(\?v=\d+)?\1/g, '"./css/style.min.css?v=1"')
+        ))
         .pipe(gulp.dest('build'));
 }
 
@@ -115,18 +121,18 @@ export function injectPicture() {
 /* ---------- STYLES ---------- */
 export function processStyles() {
     const plugins = [
-        postUrl({ assetsPath: '../' }),
+        postUrl({ url: 'rebase' }),
         autoprefixer(),
     ];
     if (!isDevelopment) plugins.push(csso());
 
     return gulp.src('source/sass/style.scss', { sourcemaps: isDevelopment })
         .pipe(plumber())
-        .pipe(sass().on('error', sass.logError))
+        .pipe(compileSass().on('error', compileSass.logError))  // <- меняем тут
         .pipe(postcss(plugins))
-        .pipe(rename('style.min.css'))
+        .pipe(gulpIf(!isDevelopment, rename({ suffix: '.min' }))) // получим style.min.css в prod
         .pipe(gulp.dest('build/css', { sourcemaps: isDevelopment }))
-        .pipe(server.stream());
+        .pipe(browser.stream());
 }
 
 /* ---------- SCRIPTS ---------- */
@@ -211,12 +217,17 @@ export function createStack() {
         .pipe(gulp.dest('build/img/icons'));
 }
 
+/* ---------- КОПИРОВАНИЕ ШРИФТОВ ---------- */
+export const copyFonts = () => {
+    return gulp.src('source/fonts/**/*.{woff,woff2}', { allowEmpty: true })
+        .pipe(gulp.dest('build/fonts'));
+};
+
 /* ---------- STATIC / ASSETS ---------- */
 export function copyAssets() {
     return gulp.src([
         'source/manifest.json',
         'source/*.webmanifest',
-        'source/fonts/**/*.{woff2,woff}',
         'source/*.ico'
     ], { base: 'source' })
         .pipe(newer('build'))
@@ -250,11 +261,13 @@ function watchFiles() {
 
     gulp.watch('source/img/**/*.{png,jpg,jpeg,PNG,JPG,JPEG}', gulp.series(optimizeImages, createWebp, createAvif, reloadServer));
     gulp.watch('source/img/**/*.svg', gulp.series(optimizeVector, createStack, reloadServer));
+    gulp.watch('source/fonts/**/*.{woff,woff2}', gulp.series(copyFonts, reloadServer));
 }
+
 
 /* ---------- CLEAN / BUILD CHAINS ---------- */
 export function deleteBuild() {
-    return deleteAsync('build');
+    return deleteAsync(['build/**', '!build']);
 }
 
 function compileProject(done) {
@@ -266,6 +279,7 @@ function compileProject(done) {
         optimizeVector,
         createStack,
         copyAssets,
+        copyFonts,
         optimizeImages,
         createWebp,
         createAvif
