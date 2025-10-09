@@ -1,0 +1,14 @@
+@use "../global/variables.scss" as var;
+@use "../global/mixins.scss" as mixin;
+
+.messiah-magen {
+    display: none;
+
+    @media (min-width: var.$desktop-width) {
+        display: block;
+        margin: 0 auto;
+        width: 73dvh;
+        height: 73dvh;
+        object-fit: contain;
+    }
+}

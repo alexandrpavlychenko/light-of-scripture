@@ -120,11 +120,11 @@ export function processStyles() {
     ];
     if (!isDevelopment) plugins.push(csso());
 
-    return gulp.src('source/sass/*.scss', { sourcemaps: isDevelopment })
+    return gulp.src('source/sass/style.scss', { sourcemaps: isDevelopment })
         .pipe(plumber())
         .pipe(sass().on('error', sass.logError))
         .pipe(postcss(plugins))
-        .pipe(gulpIf(!isDevelopment, rename({ suffix: '.min' })))
+        .pipe(rename('style.min.css'))
         .pipe(gulp.dest('build/css', { sourcemaps: isDevelopment }))
         .pipe(server.stream());
 }
@@ -214,11 +214,12 @@ export function createStack() {
 /* ---------- STATIC / ASSETS ---------- */
 export function copyAssets() {
     return gulp.src([
-        'source/fonts/**/*.{woff2,woff}',
-        'source/*.ico',
+        'source/manifest.json',
         'source/*.webmanifest',
+        'source/fonts/**/*.{woff2,woff}',
+        'source/*.ico'
     ], { base: 'source' })
-        .pipe(newer('build')) // ✅ не переписываем неизменённые
+        .pipe(newer('build'))
         .pipe(gulp.dest('build'));
 }
 
@@ -242,21 +243,13 @@ function reloadServer(done) {
 function watchFiles() {
     gulp.watch('source/sass/**/*.scss', gulp.series(processStyles));
     gulp.watch('source/js/**/*.js', gulp.series(processScripts));
+    gulp.watch('source/*.html', gulp.series(processMarkup, injectPicture, reloadServer));
 
-    // HTML: собрали → внедрили <picture> → перегрузили
-    gulp.watch('source/*.html',
-        gulp.series(processMarkup, injectPicture, reloadServer)
-    );
+    gulp.watch('source/manifest.json', gulp.series(copyAssets, reloadServer));
+    gulp.watch('source/*.webmanifest', gulp.series(copyAssets, reloadServer));
 
-    gulp.watch(
-        'source/img/**/*.{png,jpg,jpeg,PNG,JPG,JPEG}',
-        gulp.series(optimizeImages, createWebp, createAvif, reloadServer)
-    );
-
-    gulp.watch(
-        'source/img/**/*.svg',
-        gulp.series(optimizeVector, createStack, reloadServer)
-    );
+    gulp.watch('source/img/**/*.{png,jpg,jpeg,PNG,JPG,JPEG}', gulp.series(optimizeImages, createWebp, createAvif, reloadServer));
+    gulp.watch('source/img/**/*.svg', gulp.series(optimizeVector, createStack, reloadServer));
 }
 
 /* ---------- CLEAN / BUILD CHAINS ---------- */

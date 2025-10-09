@@ -1,0 +1,114 @@
+@use "../global/variables.scss" as var;
+@use "../global/mixins.scss" as mixin;
+
+.page-footer {
+    padding: 24px 0;
+    width: 100vw;
+
+    background-color: var.$color-basic-blue;
+
+    @media (min-width: var.$tablet-width) {
+        padding: 20px 0;
+    }
+
+    @media (min-width: var.$desktop-width) {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+
+        min-height: 8dvh;
+        padding: 9px 0;
+    }
+}
+
+.page-footer__wrapper {
+    @media (min-width: var.$desktop-width) {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        column-gap: 120px;
+    }
+}
+
+.footer-quote {
+    margin: 0;
+
+    @media (min-width: 480px) {
+        text-align: center;
+    }
+
+    @media (max-width: 359px) {
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+        margin: 0 0 20px;
+    }
+
+    @media (min-width: var.$desktop-width) {
+        text-align: start;
+
+        min-width: 0;
+    }
+}
+
+.footer-quote__main-content {
+    margin: 0;
+    color: var.$color-basic-gold;
+}
+
+.footer-quote__source {
+    display: block;
+    @include mixin.font-footer-author-source;
+}
+
+.page-footer__author {
+    text-align: start;
+
+    @media (min-width: 480px) {
+        text-align: center;
+    }
+
+    @media (min-width: var.$desktop-width) {
+        text-align: start;
+
+        min-width: 0;
+    }
+}
+
+.page-footer__author-text {
+    @include mixin.font-footer-author-text;
+}
+
+.page-footer__author-link {
+    @include mixin.font-footer-author-link;
+
+    text-decoration: underline;
+    text-decoration-thickness: 0.75px;
+    text-underline-offset: 2px;
+    text-decoration-color: transparent;
+
+    &:hover,
+    &:focus-visible {
+        opacity: 0.8;
+    }
+
+    &:active {
+        opacity: 0.5;
+    }
+
+    @media (min-width: var.$desktop-width) {
+        &:hover,
+        &:focus-visible {
+            text-decoration-color: var.$color-basic-gold;
+
+            opacity: 1;
+        }
+
+        &:active {
+            opacity: 0.8;
+        }
+    }
+}

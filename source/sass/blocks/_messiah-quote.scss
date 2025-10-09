@@ -1,0 +1,35 @@
+@use "../global/variables.scss" as var;
+@use "../global/mixins.scss" as mixin;
+
+.messiah-quote {
+    @include mixin.font-quotes-accented;
+
+    max-width: 1020px;
+
+    @media (min-width: var.$desktop-width) {
+        display: none;
+    }
+}
+
+.messiah-quote__main-content {
+    margin: 0;
+
+    text-wrap: balance;
+    hyphens: none;
+    overflow-wrap: normal;
+    color: var.$color-basic-red;
+
+    @media (min-width: var.$tablet-width) {
+        margin: 0 0 7px;
+    }
+}
+
+.messiah-quote__source {
+    @include mixin.font-quotes-ordinary;
+
+    padding: 0 0 0 16px;
+
+    @media (min-width: var.$tablet-width) {
+        padding: 0;
+    }
+}
