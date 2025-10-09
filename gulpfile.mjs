@@ -162,7 +162,6 @@ export function optimizeImages() {
         .pipe(gulp.dest('build/img'));
 }
 
-
 export function createWebp() {
     return gulp.src('source/img/**/*.{png,jpg,jpeg,PNG,JPG,JPEG}')
         .pipe(newer({ dest: 'build/img', ext: '.webp' })) // ✅ сравнение с .webp
@@ -264,11 +263,13 @@ function watchFiles() {
     gulp.watch('source/fonts/**/*.{woff,woff2}', gulp.series(copyFonts, reloadServer));
 }
 
-
 /* ---------- CLEAN / BUILD CHAINS ---------- */
+// Базовая очистка (оставляем имя для совместимости)
 export function deleteBuild() {
     return deleteAsync(['build/**', '!build']);
 }
+// Удобный алиас: npx gulp clean
+export const clean = deleteBuild;
 
 function compileProject(done) {
     // Всё, что можно делать параллельно
@@ -292,10 +293,10 @@ function compileProject(done) {
 /* ---------- PUBLIC TASKS ---------- */
 export function buildProd(done) {
     isDevelopment = false;
-    gulp.series(deleteBuild, compileProject)(done);
+    gulp.series(clean, compileProject)(done);
 }
 
 export function runDev(done) {
     isDevelopment = true;
-    gulp.series(deleteBuild, compileProject, startServer, watchFiles)(done);
+    gulp.series(clean, compileProject, startServer, watchFiles)(done);
 }

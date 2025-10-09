@@ -7,12 +7,17 @@
         "node": ">=18"
     },
     "scripts": {
-        "editorconfig": "editorconfig-cli",
+        "editorconfig:cli": "editorconfig-cli *.json *.js \"source/*.html\" \"source/js/**/*.js\" \"source/img/**/*.svg\" \"source/sass/**/*.scss\"",
+        "editorconfig": "npm run editorconfig:fix",
+        "editorconfig:check": "eclint check --exclude node_modules --exclude dist --exclude build",
+        "editorconfig:fix": "eclint fix --exclude node_modules --exclude dist --exclude build",
         "stylelint": "stylelint \"source/sass/**/*.scss\" --custom-syntax postcss-scss",
+        "stylelint:fix": "stylelint \"source/sass/**/*.scss\" --custom-syntax postcss-scss --fix",
         "w3c": "gulp --gulpfile gulpfile.mjs validateMarkup --silent",
         "bemlinter": "gulp --gulpfile gulpfile.mjs lintBem --silent",
         "lint": "npm run editorconfig && npm run stylelint && npm run w3c && npm run bemlinter",
         "start": "gulp --gulpfile gulpfile.mjs runDev",
+        "clean": "gulp clean",
         "build": "cross-env NODE_ENV=production gulp --gulpfile gulpfile.mjs buildProd",
         "preview": "gulp --gulpfile gulpfile.mjs buildProd && gulp --gulpfile gulpfile.mjs startServer",
         "deploy": "npm run build && gh-pages -d build -b gh-pages -r https://github.com/alexandrpavlychenko/light-of-scripture.git"
@@ -23,14 +28,26 @@
         "not op_mini all",
         "not < 0.25%"
     ],
-    "editorconfig-cli": [
-        "*.json",
-        "*.js",
-        "source/*.html",
-        "source/js/**/*.js",
-        "source/img/**/*.svg",
-        "source/sass/**/*.scss"
-    ],
+    "stylelint": {
+        "extends": [
+            "stylelint-config-htmlacademy"
+        ],
+        "customSyntax": "postcss-scss",
+        "plugins": [
+            "stylelint-scss"
+        ],
+        "rules": {
+            "indentation": 4,
+            "color-hex-case": "lower",
+            "number-max-precision": 2,
+            "at-rule-no-unknown": null,
+            "scss/at-rule-no-unknown": true,
+            "at-rule-empty-line-before": null
+        },
+        "ignoreFiles": [
+            "build/**"
+        ]
+    },
     "devDependencies": {
         "@htmlacademy/editorconfig-cli": "1.0.0",
         "autoprefixer": "^10.4.21",
@@ -38,6 +55,7 @@
         "cheerio": "^1.0.0-rc.12",
         "cross-env": "^10.1.0",
         "del": "^7.1.0",
+        "eclint": "^2.8.1",
         "gh-pages": "^6.3.0",
         "gulp": "4.0.2",
         "gulp-csso": "^4.0.1",
@@ -64,6 +82,7 @@
         "sharp": "^0.33.5",
         "stylelint": "14.15.0",
         "stylelint-config-htmlacademy": "1.1.2",
+        "stylelint-scss": "^4.7.0",
         "through2": "^4.0.2",
         "vinyl": "^3.0.0"
     }

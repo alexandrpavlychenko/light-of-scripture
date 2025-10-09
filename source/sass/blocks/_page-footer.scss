@@ -61,6 +61,7 @@
 
 .footer-quote__source {
     display: block;
+
     @include mixin.font-footer-author-source;
 }
 
@@ -88,7 +89,17 @@
     text-decoration: underline;
     text-decoration-thickness: 0.75px;
     text-underline-offset: 2px;
-    text-decoration-color: transparent;
+    text-decoration-color: var.$color-basic-gold;
+
+    @media(min-width: var.$tablet-width) {
+        text-decoration: none;
+    }
+
+    @media (min-width: var.$desktop-width) {
+        text-decoration-thickness: 0.75px;
+        text-underline-offset: 2px;
+        text-decoration-color: transparent;
+    }
 
     &:hover,
     &:focus-visible {
@@ -102,6 +113,7 @@
     @media (min-width: var.$desktop-width) {
         &:hover,
         &:focus-visible {
+            text-decoration: underline;
             text-decoration-color: var.$color-basic-gold;
 
             opacity: 1;
