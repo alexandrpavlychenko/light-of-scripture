@@ -70,7 +70,7 @@
     text-underline-offset: 0.09em;
     text-decoration-color: #ffffff;
 
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, text-decoration-color 0.3s ease;
 
     @media (min-width: var.$tablet-width) {
         letter-spacing: 0.05em;
@@ -86,20 +86,34 @@
 
     &:hover,
     &:focus-visible {
-        color: var.$color-basic-red;
+        color: var.$color-basic-gold;
     }
 
     &:active {
-        color: var.$color-alter-red;
+        color: var.$color-basic-black;
+        text-decoration-color: var.$color-basic-gold;
     }
 
     &--uppercase {
         @include mixin.font-main-menu-uppercase;
     }
 
-    &--is-selected,
-    &--is-selected:is(:hover, :focus-visible, :active) {
+    &--is-selected {
         color: var.$color-alter-red;
+        text-decoration-color: var.$color-basic-black;
+        transition: opacity 0.3s ease;
+    }
+
+    &--is-selected:is(:hover, :focus-visible) {
+        color: var.$color-alter-red;
+        text-decoration-color: var.$color-basic-black;
+        opacity: 0.7;
+    }
+
+    &--is-selected:active {
+        color: var.$color-alter-red;
+        text-decoration-color: var.$color-basic-black;
+        opacity: 0.5;
     }
 }
 

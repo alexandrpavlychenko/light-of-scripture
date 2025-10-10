@@ -91,7 +91,7 @@
     text-underline-offset: 2px;
     text-decoration-color: var.$color-basic-gold;
 
-    @media(min-width: var.$tablet-width) {
+    @media (min-width: var.$tablet-width) {
         text-decoration: none;
     }
 
