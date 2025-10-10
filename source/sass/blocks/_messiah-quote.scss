@@ -1,10 +1,12 @@
 @use "../global/variables.scss" as var;
-@use "../global/mixins.scss" as mixin;
+@use "../global/mixins.scss" as mix;
 
 .messiah-quote {
-    @include mixin.font-quotes-accented;
+    @include mix.font-quotes-accented;
 
-    max-width: 1020px;
+    @media (min-width: var.$tablet-width) {
+        width: 670px;
+    }
 
     @media (min-width: var.$desktop-width) {
         display: none;
@@ -25,7 +27,7 @@
 }
 
 .messiah-quote__source {
-    @include mixin.font-quotes-ordinary;
+    @include mix.font-quotes-ordinary;
 
     padding: 0 0 0 16px;
 

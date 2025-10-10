@@ -1,8 +1,8 @@
 @use "../global/variables.scss" as var;
-@use "../global/mixins.scss" as mixin;
+@use "../global/mixins.scss" as mix;
 
 .messiah-selected-quotes {
-    @include mixin.list-reset;
+    @include mix.list-reset;
 
     display: flex;
     flex-direction: column;
@@ -26,5 +26,5 @@
 }
 
 .messiah__quote {
-    margin: 0;
+    margin: 0 auto;
 }

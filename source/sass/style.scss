@@ -1,11 +1,14 @@
+/* FOUNDATION */
+@use "global/tokens" as tok;
+@use "global/variables" as var;
+@use "global/mixins" as mix;
+
 /* GLOBAL */
 @use "global/fonts";
 @use "global/global-selectors";
-@use "global/variables" as var;
-@use "global/mixins" as mixin;
 
 /* HELPERS */
-@use "helpers/_visually-hidden";
+@use "helpers/visually-hidden";
 @use "helpers/container";
 
 /* BLOCKS */

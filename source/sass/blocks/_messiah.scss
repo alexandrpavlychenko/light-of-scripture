@@ -1,5 +1,5 @@
 @use "../global/variables.scss" as var;
-@use "../global/mixins.scss" as mixin;
+@use "../global/mixins.scss" as mix;
 
 .messiah {
     padding: 28px 0 36px;
@@ -19,5 +19,5 @@
 }
 
 .messiah__selected-quotes {
-    @include mixin.list-reset;
+    @include mix.list-reset;
 }

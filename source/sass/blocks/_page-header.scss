@@ -1,5 +1,5 @@
 @use "../global/variables.scss" as var;
-@use "../global/mixins.scss" as mixin;
+@use "../global/mixins.scss" as mix;
 
 .page-header {
     padding: calc(env(safe-area-inset-top) + 24px) 0 24px;
@@ -41,7 +41,7 @@
 }
 
 .page-header__main-menu {
-    @include mixin.list-reset;
+    @include mix.list-reset;
 
     display: flex;
     flex-direction: column;
@@ -62,7 +62,7 @@
     display: block;
     padding: 10px 0;
 
-    @include mixin.font-main-menu;
+    @include mix.font-main-menu;
 
     letter-spacing: 0.04em;
     text-decoration: underline;
@@ -95,7 +95,7 @@
     }
 
     &--uppercase {
-        @include mixin.font-main-menu-uppercase;
+        @include mix.font-main-menu-uppercase;
     }
 
     &--is-selected {

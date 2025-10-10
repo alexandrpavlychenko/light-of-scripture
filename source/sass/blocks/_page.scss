@@ -1,5 +1,5 @@
 @use "../global/variables.scss" as var;
-@use "../global/mixins.scss" as mixin;
+@use "../global/mixins.scss" as mix;
 
 .page {
     margin: 0;
@@ -24,7 +24,7 @@
     min-width: 320px;
     min-height: 100dvh;
 
-    @include mixin.font-main-text;
+    @include mix.font-main-text;
 
     @media (min-width: var.$tablet-width) {
         grid-template-rows: 1fr auto;

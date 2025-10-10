@@ -1,5 +1,5 @@
 @use "../global/variables.scss" as var;
-@use "../global/mixins.scss" as mixin;
+@use "../global/mixins.scss" as mix;
 
 .page-footer {
     padding: 24px 0;
@@ -62,7 +62,7 @@
 .footer-quote__source {
     display: block;
 
-    @include mixin.font-footer-author-source;
+    @include mix.font-footer-author-source;
 }
 
 .page-footer__author {
@@ -80,11 +80,11 @@
 }
 
 .page-footer__author-text {
-    @include mixin.font-footer-author-text;
+    @include mix.font-footer-author-text;
 }
 
 .page-footer__author-link {
-    @include mixin.font-footer-author-link;
+    @include mix.font-footer-author-link;
 
     text-decoration: underline;
     text-decoration-thickness: 0.75px;
