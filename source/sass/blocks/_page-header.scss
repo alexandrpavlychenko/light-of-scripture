@@ -68,7 +68,7 @@
     text-decoration: underline;
     text-decoration-thickness: 0.04em;
     text-underline-offset: 0.09em;
-    text-decoration-color: #ffffff;
+    text-decoration-color: var.$color-basic-white;
 
     transition: color 0.3s ease, text-decoration-color 0.3s ease;
 
