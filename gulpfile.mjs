@@ -1,3 +1,4 @@
+// -------------------- Imports --------------------
 import gulp from 'gulp';
 import plumber from 'gulp-plumber';
 import gulpIf from 'gulp-if';
@@ -16,7 +17,9 @@ import rename from 'gulp-rename';
 import terser from 'gulp-terser';
 
 import svgo from 'gulp-svgmin';
-import { stacksvg } from 'gulp-stacksvg';
+// Универсальный импорт stacksvg (работает с любым экспортом)
+import * as stacksvgNS from 'gulp-stacksvg';
+const stacksvg = stacksvgNS.default ?? stacksvgNS.stacksvg ?? stacksvgNS;
 
 import sharp from 'sharp';
 import through2 from 'through2';
@@ -30,15 +33,30 @@ import browser from 'browser-sync';
 import bemlinter from 'gulp-html-bemlinter';
 import { htmlValidator } from 'gulp-w3c-html-validator';
 
+// -------------------- Runtime guards (dev only) --------------------
+if (process.env.NODE_ENV !== 'production') {
+    if (process.listenerCount('uncaughtException') === 0) {
+        process.on('uncaughtException', (err) => {
+            console.error('[uncaughtException]', err?.stack || err);
+        });
+    }
+    if (process.listenerCount('unhandledRejection') === 0) {
+        process.on('unhandledRejection', (reason) => {
+            console.error('[unhandledRejection]', reason);
+        });
+    }
+}
+
+// -------------------- Flags & constants --------------------
 const compileSass = gulpSass(dartSass);
 let isDevelopment = true;
+
 const BS_PORT = Number(process.env.BS_PORT);
+const FAST_DEV = process.env.FAST_DEV === '1';
 
 // -------------------- Helpers --------------------
-/** Единый обработчик ошибок (не даёт задачам падать) */
 function onError(taskName) {
     return function (err) {
-        // Красный заголовок + текст ошибки
         console.error(`\x1b[31m[${taskName}]\x1b[0m ${err?.message || err}`);
         if (err?.stack) console.error(err.stack);
         this.emit('end');
@@ -47,7 +65,6 @@ function onError(taskName) {
 
 // -------------------- BrowserSync --------------------
 const server = browser.create();
-const BS_FALLBACK_PORT = 3000;
 
 /* ---------- HTML ---------- */
 export function processMarkup() {
@@ -61,10 +78,9 @@ export function processMarkup() {
             collapseWhitespace: true,
             conservativeCollapse: true
         })))
-        // В prod меняем любые варианты путей на min-версию, сохраняя кавычки и ?v=...
         .pipe(gulpIf(
             !isDevelopment,
-            replace(/(["'])(?:\.?\/)?css\/style\.css((?:\?v=\d+)?)\1/g, '$1css/style.min.css$2$1')
+            replace(/(["'])(?:\.?\/)?\/?css\/style\.css((?:\?v=\d+)?)\1/g, '$1css/style.min.css$2$1')
         ))
         .pipe(gulp.dest('build'))
         .pipe(server.stream());
@@ -80,9 +96,8 @@ export function validateMarkup() {
         .pipe(htmlValidator.reporter({ throwErrors: true }));
 }
 
-// ---------- HTML: автогенерация <picture> с AVIF + WebP ----------
+/* ---------- HTML: автогенерация <picture> ---------- */
 export function injectPicture() {
-    // Работает по уже собранным HTML в build/
     return gulp.src('build/*.html')
         .pipe(plumber({ errorHandler: onError('injectPicture') }))
         .pipe(through2.obj(function (file, _, cb) {
@@ -92,23 +107,17 @@ export function injectPicture() {
 
                 $('img[src]').each((_, el) => {
                     const $img = $(el);
-
-                    // не трогаем, если уже внутри <picture> или если есть srcset (чтобы не сломать авторскую адаптацию)
                     if ($img.parents('picture').length) return;
                     if ($img.attr('srcset')) return;
 
                     const src = $img.attr('src');
-                    // пропускаем data: и абсолютные внешние URL
                     if (!src || /^data:/.test(src) || /^https?:\/\//.test(src)) return;
-
-                    // работаем только с png/jpg/jpeg
                     const m = src.match(/\.(png|jpe?g)$/i);
                     if (!m) return;
 
                     const avif = src.replace(/\.(png|jpe?g)$/i, '.avif');
                     const webp = src.replace(/\.(png|jpe?g)$/i, '.webp');
 
-                    // переносим основные атрибуты на <img>
                     const attrs = {
                         alt: $img.attr('alt') ?? '',
                         class: $img.attr('class'),
@@ -119,14 +128,9 @@ export function injectPicture() {
                     };
 
                     const $picture = $('<picture></picture>');
-                    // AVIF приоритетнее, затем WebP, затем JPEG/PNG
                     $picture.append(`<source srcset="${avif}" type="image/avif">`);
                     $picture.append(`<source srcset="${webp}" type="image/webp">`);
-
-                    const $fallback = $('<img/>')
-                        .attr('src', src)
-                        .attr(attrs);
-
+                    const $fallback = $('<img/>').attr('src', src).attr(attrs);
                     $picture.append($fallback);
                     $img.replaceWith($picture);
                 });
@@ -140,18 +144,14 @@ export function injectPicture() {
 
 /* ---------- STYLES ---------- */
 export function processStyles() {
-    const plugins = [
-        postUrl({ url: 'rebase' }),
-        autoprefixer(),
-    ];
-    if (!isDevelopment) plugins.push(csso()); // пост-минификация в prod через postcss-csso (если используешь)
+    const plugins = [postUrl({ url: 'rebase' }), autoprefixer()];
+    if (!isDevelopment) plugins.push(csso());
 
     return gulp.src('source/sass/style.scss', { sourcemaps: isDevelopment })
         .pipe(plumber({ errorHandler: onError('processStyles') }))
-        .pipe(compileSass({ outputStyle: isDevelopment ? 'expanded' : 'compressed' })
-            .on('error', compileSass.logError))
+        .pipe(compileSass({ outputStyle: isDevelopment ? 'expanded' : 'compressed' }).on('error', compileSass.logError))
         .pipe(postcss(plugins))
-        .pipe(gulpIf(!isDevelopment, rename({ suffix: '.min' }))) // => style.min.css в prod
+        .pipe(gulpIf(!isDevelopment, rename({ suffix: '.min' })))
         .pipe(gulp.dest('build/css', { sourcemaps: isDevelopment }))
         .pipe(server.stream());
 }
@@ -165,11 +165,11 @@ export function processScripts() {
         .pipe(server.stream());
 }
 
-/* ---------- IMAGES (PNG/JPG/JPEG + WebP + AVIF через sharp) ---------- */
+/* ---------- IMAGES ---------- */
 export function optimizeImages() {
     return gulp.src('source/img/**/*.{png,jpg,jpeg,PNG,JPG,JPEG}')
         .pipe(plumber({ errorHandler: onError('optimizeImages') }))
-        .pipe(newer('build/img')) // ⬅️ Проверка: если файл уже есть — пропускаем
+        .pipe(newer('build/img'))
         .pipe(gulpIf(!isDevelopment, through2.obj(async function (file, _, cb) {
             try {
                 const isPng = /\.png$/i.test(file.path);
@@ -188,7 +188,7 @@ export function optimizeImages() {
 export function createWebp() {
     return gulp.src('source/img/**/*.{png,jpg,jpeg,PNG,JPG,JPEG}')
         .pipe(plumber({ errorHandler: onError('createWebp') }))
-        .pipe(newer({ dest: 'build/img', ext: '.webp' })) // ✅ сравнение с .webp
+        .pipe(newer({ dest: 'build/img', ext: '.webp' }))
         .pipe(through2.obj(async function (file, _, cb) {
             try {
                 const buf = await sharp(file.contents).webp({ quality: 80 }).toBuffer();
@@ -207,7 +207,7 @@ export function createWebp() {
 export function createAvif() {
     return gulp.src('source/img/**/*.{png,jpg,jpeg,PNG,JPG,JPEG}')
         .pipe(plumber({ errorHandler: onError('createAvif') }))
-        .pipe(newer({ dest: 'build/img', ext: '.avif' })) // ✅ сравнение с .avif
+        .pipe(newer({ dest: 'build/img', ext: '.avif' }))
         .pipe(through2.obj(async function (file, _, cb) {
             try {
                 const buf = await sharp(file.contents).avif({
@@ -243,7 +243,7 @@ export function createStack() {
         .pipe(gulp.dest('build/img/icons'));
 }
 
-/* ---------- КОПИРОВАНИЕ ШРИФТОВ ---------- */
+/* ---------- FONTS ---------- */
 export const copyFonts = () => {
     return gulp.src('source/fonts/**/*.{woff,woff2}', { allowEmpty: true })
         .pipe(plumber({ errorHandler: onError('copyFonts') }))
@@ -252,11 +252,7 @@ export const copyFonts = () => {
 
 /* ---------- STATIC / ASSETS ---------- */
 export function copyAssets() {
-    return gulp.src([
-        'source/manifest.json',
-        'source/*.webmanifest',
-        'source/*.ico'
-    ], { base: 'source' })
+    return gulp.src(['source/manifest.json', 'source/*.webmanifest', 'source/*.ico'], { base: 'source' })
         .pipe(plumber({ errorHandler: onError('copyAssets') }))
         .pipe(newer('build'))
         .pipe(gulp.dest('build'));
@@ -264,29 +260,28 @@ export function copyAssets() {
 
 /* ---------- SERVER ---------- */
 export function startServer(done) {
-    const portToUse = Number.isFinite(BS_PORT) && BS_PORT > 0 ? BS_PORT : BS_FALLBACK_PORT;
+    const portEnv = Number(process.env.BS_PORT);
+    const PORT = Number.isFinite(portEnv) && portEnv > 0 ? portEnv : 3000;
 
-    server.init(
-        {
-            server: { baseDir: 'build' },
-            cors: true,
-            notify: false,
-            ui: false,
-            host: 'localhost',
-            open: 'local',        // откроет именно локальный URL
-            ghostMode: false,
-            reloadDebounce: 300,
-            port: portToUse,
-        },
-        () => {
-            // Мягкое уведомление, если запрошенный порт занят и был выбран другой
-            if (Number.isFinite(BS_PORT) && server.options.get('port') !== BS_PORT) {
-                console.warn(
-                    `[Browsersync] Requested port ${BS_PORT} is busy, using ${server.options.get('port')} instead.`
-                );
-            }
-        }
-    );
+    // Никаких обращений к server.options в колбэке — это и ломалось
+    server.init({
+        server: { baseDir: 'build' },
+        cors: true,
+        notify: false,
+        ui: false,
+        host: 'localhost',
+        open: true,          // откроет вкладку сам
+        online: false,
+        ghostMode: false,
+        reloadDebounce: 300,
+        reloadOnRestart: true,
+        port: PORT,
+        logFileChanges: true,
+    });
+
+    // На всякий случай просто напечатаем предполагаемый URL
+    console.log(`[BrowserSync] Try: http://localhost:${PORT}`);
+
     done();
 }
 
@@ -296,29 +291,30 @@ function reloadServer(done) {
 }
 
 /* ---------- WATCHERS ---------- */
-function watchFiles() {
-    gulp.watch('source/sass/**/*.scss', gulp.series(processStyles));
+function watchFiles(done) {
+    const w1 = gulp.watch('source/sass/**/*.scss', gulp.series(processStyles));
     gulp.watch('source/js/**/*.js', gulp.series(processScripts));
     gulp.watch('source/*.html', gulp.series(processMarkup, injectPicture, reloadServer));
-
     gulp.watch('source/manifest.json', gulp.series(copyAssets, reloadServer));
     gulp.watch('source/*.webmanifest', gulp.series(copyAssets, reloadServer));
-
-    gulp.watch('source/img/**/*.{png,jpg,jpeg,PNG,JPG,JPEG}', gulp.series(optimizeImages, createWebp, createAvif, reloadServer));
     gulp.watch('source/img/**/*.svg', gulp.series(optimizeVector, createStack, reloadServer));
+    if (FAST_DEV) {
+        gulp.watch('source/img/**/*.{png,jpg,jpeg,PNG,JPG,JPEG}', gulp.series(optimizeImages, reloadServer));
+    } else {
+        gulp.watch('source/img/**/*.{png,jpg,jpeg,PNG,JPG,JPEG}', gulp.series(optimizeImages, createWebp, createAvif, reloadServer));
+    }
     gulp.watch('source/fonts/**/*.{woff,woff2}', gulp.series(copyFonts, reloadServer));
+    done();
+    return w1;
 }
 
 /* ---------- CLEAN / BUILD CHAINS ---------- */
-// Базовая очистка (оставляем имя для совместимости)
 export function deleteBuild() {
     return deleteAsync(['build/**', '!build']);
 }
-// Удобный алиас: npx gulp clean
 export const clean = deleteBuild;
 
 function compileProject(done) {
-    // Всё, что можно делать параллельно
     const parallelTasks = gulp.parallel(
         processMarkup,
         processStyles,
@@ -331,8 +327,6 @@ function compileProject(done) {
         createWebp,
         createAvif
     );
-
-    // После этого — HTML-дополнение с <picture>
     gulp.series(parallelTasks, injectPicture)(done);
 }
 
@@ -344,5 +338,8 @@ export function buildProd(done) {
 
 export function runDev(done) {
     isDevelopment = true;
-    gulp.series(clean, compileProject, startServer, watchFiles)(done);
+    gulp.series(clean, compileProject, gulp.parallel(startServer, watchFiles))(done);
 }
+
+// export default runDev;
+
