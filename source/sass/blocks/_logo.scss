@@ -4,7 +4,7 @@
     display: block;
     width: 52px;
     height: 52px;
-    color: var.$color-basic-gold;
+    color: var.$color-fundamental-gold;
 
     transition: filter 0.3s ease-in-out;
 
@@ -12,10 +12,10 @@
 
     &:hover,
     &:focus-visible {
-        filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.7));
+        filter: drop-shadow(0 0 7px rgba(255, 255, 255, 0.7));
     }
 
     &:active {
-        filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.4));
+        filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.3));
     }
 }

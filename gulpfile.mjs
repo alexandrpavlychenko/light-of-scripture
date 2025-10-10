@@ -32,13 +32,27 @@ import { htmlValidator } from 'gulp-w3c-html-validator';
 
 const compileSass = gulpSass(dartSass);
 let isDevelopment = true;
+const BS_PORT = Number(process.env.BS_PORT);
 
-// BrowserSync instance
+// -------------------- Helpers --------------------
+/** Единый обработчик ошибок (не даёт задачам падать) */
+function onError(taskName) {
+    return function (err) {
+        // Красный заголовок + текст ошибки
+        console.error(`\x1b[31m[${taskName}]\x1b[0m ${err?.message || err}`);
+        if (err?.stack) console.error(err.stack);
+        this.emit('end');
+    };
+}
+
+// -------------------- BrowserSync --------------------
 const server = browser.create();
+const BS_PORT = 3000;
 
 /* ---------- HTML ---------- */
 export function processMarkup() {
     return gulp.src('source/*.html')
+        .pipe(plumber({ errorHandler: onError('processMarkup') }))
         .pipe(gulpIf(isDevelopment, replace(
             /<link\s+rel=["']preload["'][^>]*\sas=["']image["'][^>]*>\s*\n?/gi,
             ''
@@ -70,6 +84,7 @@ export function validateMarkup() {
 export function injectPicture() {
     // Работает по уже собранным HTML в build/
     return gulp.src('build/*.html')
+        .pipe(plumber({ errorHandler: onError('injectPicture') }))
         .pipe(through2.obj(function (file, _, cb) {
             try {
                 const html = file.contents.toString();
@@ -132,7 +147,7 @@ export function processStyles() {
     if (!isDevelopment) plugins.push(csso()); // пост-минификация в prod через postcss-csso (если используешь)
 
     return gulp.src('source/sass/style.scss', { sourcemaps: isDevelopment })
-        .pipe(plumber())
+        .pipe(plumber({ errorHandler: onError('processStyles') }))
         .pipe(compileSass({ outputStyle: isDevelopment ? 'expanded' : 'compressed' })
             .on('error', compileSass.logError))
         .pipe(postcss(plugins))
@@ -144,6 +159,7 @@ export function processStyles() {
 /* ---------- SCRIPTS ---------- */
 export function processScripts() {
     return gulp.src('source/js/**/*.js', { sourcemaps: isDevelopment })
+        .pipe(plumber({ errorHandler: onError('processScripts') }))
         .pipe(gulpIf(!isDevelopment, terser()))
         .pipe(gulp.dest('build/js', { sourcemaps: isDevelopment }))
         .pipe(server.stream());
@@ -152,6 +168,7 @@ export function processScripts() {
 /* ---------- IMAGES (PNG/JPG/JPEG + WebP + AVIF через sharp) ---------- */
 export function optimizeImages() {
     return gulp.src('source/img/**/*.{png,jpg,jpeg,PNG,JPG,JPEG}')
+        .pipe(plumber({ errorHandler: onError('optimizeImages') }))
         .pipe(newer('build/img')) // ⬅️ Проверка: если файл уже есть — пропускаем
         .pipe(gulpIf(!isDevelopment, through2.obj(async function (file, _, cb) {
             try {
@@ -170,6 +187,7 @@ export function optimizeImages() {
 
 export function createWebp() {
     return gulp.src('source/img/**/*.{png,jpg,jpeg,PNG,JPG,JPEG}')
+        .pipe(plumber({ errorHandler: onError('createWebp') }))
         .pipe(newer({ dest: 'build/img', ext: '.webp' })) // ✅ сравнение с .webp
         .pipe(through2.obj(async function (file, _, cb) {
             try {
@@ -188,6 +206,7 @@ export function createWebp() {
 
 export function createAvif() {
     return gulp.src('source/img/**/*.{png,jpg,jpeg,PNG,JPG,JPEG}')
+        .pipe(plumber({ errorHandler: onError('createAvif') }))
         .pipe(newer({ dest: 'build/img', ext: '.avif' })) // ✅ сравнение с .avif
         .pipe(through2.obj(async function (file, _, cb) {
             try {
@@ -211,12 +230,14 @@ export function createAvif() {
 /* ---------- SVG ---------- */
 export function optimizeVector() {
     return gulp.src(['source/img/**/*.svg', '!source/img/icons/**/*.svg'])
+        .pipe(plumber({ errorHandler: onError('optimizeVector') }))
         .pipe(svgo())
         .pipe(gulp.dest('build/img'));
 }
 
 export function createStack() {
     return gulp.src('source/img/icons/**/*.svg')
+        .pipe(plumber({ errorHandler: onError('createStack') }))
         .pipe(svgo())
         .pipe(stacksvg())
         .pipe(gulp.dest('build/img/icons'));
@@ -225,6 +246,7 @@ export function createStack() {
 /* ---------- КОПИРОВАНИЕ ШРИФТОВ ---------- */
 export const copyFonts = () => {
     return gulp.src('source/fonts/**/*.{woff,woff2}', { allowEmpty: true })
+        .pipe(plumber({ errorHandler: onError('copyFonts') }))
         .pipe(gulp.dest('build/fonts'));
 };
 
@@ -235,18 +257,35 @@ export function copyAssets() {
         'source/*.webmanifest',
         'source/*.ico'
     ], { base: 'source' })
+        .pipe(plumber({ errorHandler: onError('copyAssets') }))
         .pipe(newer('build'))
         .pipe(gulp.dest('build'));
 }
 
 /* ---------- SERVER ---------- */
 export function startServer(done) {
-    server.init({
-        server: { baseDir: 'build' },
-        cors: true,
-        notify: false,
-        ui: false,
-    });
+    server.init(
+        {
+            server: { baseDir: 'build' },
+            cors: true,
+            notify: false,
+            ui: false,
+            host: 'localhost',
+            open: 'local',        // откроет именно локальный URL
+            ghostMode: false,
+            reloadDebounce: 300,
+            // Если задан BS_PORT — используем его, иначе пусть BrowserSync сам выберет свободный порт
+            port: Number.isFinite(BS_PORT) ? BS_PORT : 0,
+        },
+        () => {
+            // Мягкое уведомление, если запрошенный порт занят и был выбран другой
+            if (Number.isFinite(BS_PORT) && server.options.get('port') !== BS_PORT) {
+                console.warn(
+                    `[Browsersync] Requested port ${BS_PORT} is busy, using ${server.options.get('port')} instead.`
+                );
+            }
+        }
+    );
     done();
 }
 

@@ -9,7 +9,7 @@
     align-items: center;
     width: 100vw;
 
-    background-color: var.$color-basic-blue;
+    background-color: var.$color-sky;
 
     @media (min-width: var.$tablet-width) {
         position: fixed;
@@ -68,7 +68,7 @@
     text-decoration: underline;
     text-decoration-thickness: 0.04em;
     text-underline-offset: 0.09em;
-    text-decoration-color: var.$color-basic-white;
+    text-decoration-color: var.$color-verily-white;
 
     transition: color 0.3s ease, text-decoration-color 0.3s ease;
 
@@ -86,12 +86,12 @@
 
     &:hover,
     &:focus-visible {
-        color: var.$color-basic-gold;
+        color: var.$color-fundamental-gold;
     }
 
     &:active {
-        color: var.$color-basic-black;
-        text-decoration-color: var.$color-basic-gold;
+        color: var.$color-verily-black;
+        text-decoration-color: var.$color-fundamental-gold;
     }
 
     &--uppercase {
@@ -99,20 +99,20 @@
     }
 
     &--is-selected {
-        color: var.$color-alter-red;
-        text-decoration-color: var.$color-basic-black;
+        color: var.$color-venous-red;
+        text-decoration-color: var.$color-verily-black;
         transition: opacity 0.3s ease;
     }
 
     &--is-selected:is(:hover, :focus-visible) {
-        color: var.$color-alter-red;
-        text-decoration-color: var.$color-basic-black;
+        color: var.$color-venous-red;
+        text-decoration-color: var.$color-verily-black;
         opacity: 0.7;
     }
 
     &--is-selected:active {
-        color: var.$color-alter-red;
-        text-decoration-color: var.$color-basic-black;
+        color: var.$color-venous-red;
+        text-decoration-color: var.$color-verily-black;
         opacity: 0.5;
     }
 }

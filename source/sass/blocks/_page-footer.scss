@@ -5,7 +5,7 @@
     padding: 24px 0;
     width: 100vw;
 
-    background-color: var.$color-basic-blue;
+    background-color: var.$color-sky;
 
     @media (min-width: var.$tablet-width) {
         padding: 20px 0;
@@ -56,7 +56,7 @@
 
 .footer-quote__main-content {
     margin: 0;
-    color: var.$color-basic-gold;
+    color: var.$color-fundamental-gold;
 }
 
 .footer-quote__source {
@@ -89,7 +89,7 @@
     text-decoration: underline;
     text-decoration-thickness: 0.75px;
     text-underline-offset: 2px;
-    text-decoration-color: var.$color-basic-gold;
+    text-decoration-color: var.$color-fundamental-gold;
 
     @media (min-width: var.$tablet-width) {
         text-decoration: none;
@@ -114,7 +114,7 @@
         &:hover,
         &:focus-visible {
             text-decoration: underline;
-            text-decoration-color: var.$color-basic-gold;
+            text-decoration-color: var.$color-fundamental-gold;
 
             opacity: 1;
         }

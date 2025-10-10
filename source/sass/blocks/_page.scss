@@ -5,7 +5,7 @@
     margin: 0;
     height: 100dvh;
 
-    background-color: var.$color-basic-white;
+    background-color: var.$color-verily-white;
 
     @media (min-width: var.$tablet-width) {
         scroll-padding-top: calc(128px + env(safe-area-inset-top));

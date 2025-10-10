@@ -1,11 +1,11 @@
 @use "tokens" as tok;
 
-$color-basic-blue: #005eb8;
-$color-basic-white: #ffffff;
-$color-basic-red: #e53935;
-$color-alter-red: #6e1423;
-$color-basic-black: #000000;
-$color-basic-gold: #f5d76e;
+$color-sky: tok.$blue;
+$color-verily-white: tok.$white;
+$color-fundamental-gold: tok.$gold;
+$color-arterial-red: tok.$red-400;
+$color-venous-red: tok.$red-800;
+$color-verily-black: tok.$black;
 
 $font-quotes: "Cinzel", "Forum", serif;
 $font-main-text-accented: "Lora", serif;

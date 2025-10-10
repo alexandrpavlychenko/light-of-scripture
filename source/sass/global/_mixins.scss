@@ -12,7 +12,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-variant-numeric: oldstyle-nums proportional-nums;
-    color: var.$color-basic-black;
+    color: var.$color-verily-black;
 
     @media (min-width: var.$tablet-width) {
         font-size: 17px;
@@ -30,7 +30,7 @@
     font-size: 16px;
     line-height: 1.55;
     font-weight: 700;
-    color: var.$color-basic-black;
+    color: var.$color-verily-black;
 
     @media (min-width: var.$tablet-width) {
         font-size: 17px;
@@ -49,7 +49,7 @@
     line-height: 1.2;
     font-weight: 400;
     letter-spacing: 0.04em;
-    color: var.$color-basic-white;
+    color: var.$color-verily-white;
 
     @media (min-width: var.$tablet-width) {
         font-size: 20px;
@@ -80,7 +80,7 @@
     font-family: var.$font-quotes;
     font-size: 16px;
     line-height: 1.5;
-    color: var.$color-basic-black;
+    color: var.$color-verily-black;
 
     @media (min-width: var.$tablet-width) {
         font-size: 17px;
@@ -104,7 +104,7 @@
     line-height: 1.5;
     text-transform: uppercase;
     letter-spacing: 0.02em;
-    color: var.$color-basic-black;
+    color: var.$color-verily-black;
 
     @media (min-width: var.$tablet-width) {
         font-size: 17px;
@@ -127,7 +127,7 @@
     font-family: var.$font-quotes;
     font-size: 18px;
     line-height: 1.45;
-    color: var.$color-basic-black;
+    color: var.$color-verily-black;
 
     @media (min-width: var.$tablet-width) {
         font-size: 22px;
@@ -151,7 +151,7 @@
     line-height: 1.45;
     text-transform: uppercase;
     letter-spacing: 0.02em;
-    color: var.$color-basic-black;
+    color: var.$color-verily-black;
 
     @media (min-width: var.$tablet-width) {
         font-size: 19px;
@@ -173,7 +173,7 @@
     font-family: var.$font-main-text;
     font-size: 13px;
     line-height: 1.2;
-    color: var.$color-basic-white;
+    color: var.$color-verily-white;
 
     @media (min-width: var.$tablet-width) {
         font-size: 14px;
@@ -185,7 +185,7 @@
     font-size: 15px;
     line-height: 1.4;
     letter-spacing: 0.01em;
-    color: var.$color-basic-white;
+    color: var.$color-verily-white;
 
     @media (min-width: var.$tablet-width) {
         font-size: 16px;
@@ -205,7 +205,7 @@
     line-height: 1.4;
     font-weight: 400;
     letter-spacing: 0.01em;
-    color: var.$color-basic-gold;
+    color: var.$color-fundamental-gold;
 
     @media (min-width: var.$tablet-width) {
         font-size: 16px;
