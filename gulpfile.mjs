@@ -47,7 +47,7 @@ function onError(taskName) {
 
 // -------------------- BrowserSync --------------------
 const server = browser.create();
-const BS_PORT = 3000;
+const BS_FALLBACK_PORT = 3000;
 
 /* ---------- HTML ---------- */
 export function processMarkup() {
@@ -264,6 +264,8 @@ export function copyAssets() {
 
 /* ---------- SERVER ---------- */
 export function startServer(done) {
+    const portToUse = Number.isFinite(BS_PORT) && BS_PORT > 0 ? BS_PORT : BS_FALLBACK_PORT;
+
     server.init(
         {
             server: { baseDir: 'build' },
@@ -274,8 +276,7 @@ export function startServer(done) {
             open: 'local',        // откроет именно локальный URL
             ghostMode: false,
             reloadDebounce: 300,
-            // Если задан BS_PORT — используем его, иначе пусть BrowserSync сам выберет свободный порт
-            port: Number.isFinite(BS_PORT) ? BS_PORT : 0,
+            port: portToUse,
         },
         () => {
             // Мягкое уведомление, если запрошенный порт занят и был выбран другой
