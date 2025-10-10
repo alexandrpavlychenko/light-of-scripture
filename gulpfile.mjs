@@ -39,16 +39,21 @@ const server = browser.create();
 /* ---------- HTML ---------- */
 export function processMarkup() {
     return gulp.src('source/*.html')
+        .pipe(gulpIf(isDevelopment, replace(
+            /<link\s+rel=["']preload["'][^>]*\sas=["']image["'][^>]*>\s*\n?/gi,
+            ''
+        )))
         .pipe(gulpIf(!isDevelopment, htmlmin({
             collapseWhitespace: true,
             conservativeCollapse: true
         })))
-        // ↓↓↓ добавь этот блок
+        // В prod меняем любые варианты путей на min-версию, сохраняя кавычки и ?v=...
         .pipe(gulpIf(
             !isDevelopment,
-            replace(/(["'])\.?\/?css\/style\.css(\?v=\d+)?\1/g, '"./css/style.min.css?v=1"')
+            replace(/(["'])(?:\.?\/)?css\/style\.css((?:\?v=\d+)?)\1/g, '$1css/style.min.css$2$1')
         ))
-        .pipe(gulp.dest('build'));
+        .pipe(gulp.dest('build'))
+        .pipe(server.stream());
 }
 
 export function lintBem() {
@@ -124,13 +129,14 @@ export function processStyles() {
         postUrl({ url: 'rebase' }),
         autoprefixer(),
     ];
-    if (!isDevelopment) plugins.push(csso());
+    if (!isDevelopment) plugins.push(csso()); // пост-минификация в prod через postcss-csso (если используешь)
 
     return gulp.src('source/sass/style.scss', { sourcemaps: isDevelopment })
         .pipe(plumber())
-        .pipe(compileSass().on('error', compileSass.logError))  // <- меняем тут
+        .pipe(compileSass({ outputStyle: isDevelopment ? 'expanded' : 'compressed' })
+            .on('error', compileSass.logError))
         .pipe(postcss(plugins))
-        .pipe(gulpIf(!isDevelopment, rename({ suffix: '.min' }))) // получим style.min.css в prod
+        .pipe(gulpIf(!isDevelopment, rename({ suffix: '.min' }))) // => style.min.css в prod
         .pipe(gulp.dest('build/css', { sourcemaps: isDevelopment }))
         .pipe(server.stream());
 }
