@@ -58,7 +58,7 @@
     }
 }
 
-.page-header__main-menu-item-link {
+.page-header__item-link {
     display: block;
     padding: 10px 0;
 
@@ -69,6 +69,8 @@
     text-decoration-thickness: 0.04em;
     text-underline-offset: 0.09em;
     text-decoration-color: var.$color-verily-white;
+
+    background-color: transparent;
 
     transition: color 0.3s ease, text-decoration-color 0.3s ease;
 
@@ -117,12 +119,12 @@
     }
 }
 
-.page-header__main-menu-item-link:last-child {
+.page-header__item-link:last-child {
     @media (min-width: var.$tablet-width) {
         padding: 10px 0 10px 10px;
     }
 }
 
-.page-header__main-menu-item-link-uppercase {
+.page-header__item-link-uppercase {
     text-transform: uppercase;
 }

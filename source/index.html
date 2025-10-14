@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="page" lang="ru">
+<html lang="ru" class="page">
     <head>
         <meta charset="UTF-8">
         <meta name="description" content="Строгие и возвышенные переводы текстов Танаха (Ветхого Завета), Брит Хадаша (Нового Завета) и всей Библии с учётом оригинала для глубокого изучения Писания.">
@@ -42,28 +42,42 @@
             <h1 class="visually-hidden">Переводы еврейской Библии на русский через призму иврита и арамейского смысла
                 Писания для глубокого изучения с комментариями</h1>
             <div class="page-header__wrapper container">
-                <nav class="page-header__nav" aria-label="Главное меню сайта">
-                    <a class="page-header__logo logo" href="index.html" aria-label="Go to home page.">
-                        <svg class="logo__image" width="52" height="52" role="img" aria-hidden="true">
+                <nav aria-label="Главное меню сайта" class="page-header__nav">
+                    <a href="index.html" aria-label="На главную страницу" class="page-header__logo logo">
+                        <svg  role="img" aria-label="Менора" width="52" height="52" class="logo__image">
                             <use href="img/icons/stack.svg#icon-menorah"></use>
                         </svg>
                     </a>
                     <ol class="page-header__main-menu">
-                        <li class="page-header__main-menu-item">
-                            <a class="page-header__main-menu-item-link" href="#">Апокрифы</a>
+                        <li class="page-header__item">
+                            <button type="button" aria-haspopup="true" aria-expanded="false" aria-controls="submenu-apocrypha" class="page-header__item-link">Апокрифы</button>
+                            <!-- TODO: добавить подменю -->
                         </li>
-                        <li class="page-header__main-menu-item">
-                            <a class="page-header__main-menu-item-link" href="#">Второканонические</a>
+                        <li class="page-header__item">
+                            <button type="button" aria-haspopup="true" aria-expanded="false" aria-controls="submenu-traditions" class="page-header__item-link">Предания</button>
+                            <ol hidden id="submenu-traditions" class="page-header__item-submenu">
+                                <li class="page-header__item-submenu-item">
+                                    <a href="#" class="page-header__item-submenu-link">Мидраши</a>
+                                </li>
+                                <li class="page-header__item-submenu-item">
+                                    <a href="#" class="page-header__item-submenu-link">Каббала</a>
+                                </li>
+                            </ol>
                         </li>
-                        <li class="page-header__main-menu-item">
-                            <a class="page-header__main-menu-item-link page-header__main-menu-item-link--uppercase"
-                                href="#">Танах</a>
+                        <li class="page-header__item">
+                            <button type="button" aria-haspopup="true" aria-expanded="false" aria-controls="submenu-deuterocanon" class="page-header__item-link">Второканонические</button>
+                            <!-- TODO: добавить подменю -->
                         </li>
-                        <li class="page-header__main-menu-item">
-                            <a class="page-header__main-menu-item-link" href="#">
-                                <span class="page-header__main-menu-item-link-uppercase">Брит Хадаша</span>
-                                <span class="page-header__main-menu-item-link-ordinary">(Новый Завет)</span>
-                            </a>
+                        <li class="page-header__item">
+                            <button type="button" aria-haspopup="true" aria-expanded="false" aria-controls="submenu-tanakh"  class="page-header__item-link page-header__item-link--uppercase">Танах</button>
+                            <!-- TODO: добавить подменю -->
+                        </li>
+                        <li class="page-header__item">
+                            <button type="button" aria-haspopup="true" aria-expanded="false" aria-controls="submenu-new-testament" class="page-header__item-link">
+                                <span class="page-header__item-link-uppercase">Брит Хадаша</span>
+                                <span class="page-header__item-link-ordinary">(Новый Завет)</span>
+                            </button>
+                            <!-- TODO: добавить подменю -->
                         </li>
                     </ol>
                 </nav>
