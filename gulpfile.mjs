@@ -252,7 +252,7 @@ export const copyFonts = () => {
 
 /* ---------- STATIC / ASSETS ---------- */
 export function copyAssets() {
-    return gulp.src(['source/manifest.json', 'source/*.webmanifest', 'source/*.ico'], { base: 'source' })
+    return gulp.src(['source/*.webmanifest', 'source/*.ico'], { base: 'source' })
         .pipe(plumber({ errorHandler: onError('copyAssets') }))
         .pipe(newer('build'))
         .pipe(gulp.dest('build'));
