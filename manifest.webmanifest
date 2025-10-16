@@ -1,29 +1,29 @@
 {
-  "id": "/",
+  "id": "./",
   "name": "Light of Scripture",
   "short_name": "Scripture",
   "description": "Rigorous and elevated translations of the Tanakh (Old Testament), the Brit Hadashah (New Testament), and the entire Bible, made with close attention to the original texts for deep study of Scripture.",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
   "lang": "ru",
   "icons": [
     {
-      "src": "/icons/menorah-192x192.png",
+      "src": "img/favicon/menorah-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/icons/menorah-512x512.png",
+      "src": "img/favicon/menorah-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/icons/menorah-monochrome.svg",
+      "src": "img/icons/icon-menorah.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "monochrome"
