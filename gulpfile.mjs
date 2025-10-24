@@ -49,7 +49,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 // -------------------- Flags & constants --------------------
 const compileSass = gulpSass(dartSass);
-let isDevelopment = true;
+const isDevelopment = process.env.NODE_ENV !== 'production';
 
 const BS_PORT = Number(process.env.BS_PORT);
 const FAST_DEV = process.env.FAST_DEV === '1';
@@ -70,17 +70,21 @@ const server = browser.create();
 export function processMarkup() {
     return gulp.src('source/*.html')
         .pipe(plumber({ errorHandler: onError('processMarkup') }))
-        .pipe(gulpIf(isDevelopment, replace(
-            /<link\s+rel=["']preload["'][^>]*\sas=["']image["'][^>]*>\s*\n?/gi,
-            ''
-        )))
+        .pipe(gulpIf(
+            isDevelopment,
+            replace(/<link[^>]*\brel=["']preload["'][^>]*\bas=["']image["'][^>]*>/gi, '')
+            ))
         .pipe(gulpIf(!isDevelopment, htmlmin({
             collapseWhitespace: true,
             conservativeCollapse: true
         })))
+            .pipe(gulpIf(
+                !isDevelopment,
+                replace(/(<link[^>]*\brel=["']preload["'][^>]*\bas=["']style["'][^>]*\bhref=["'][^"']*?)css\/style\.css(\?v=\d+)?/gi, '$1css/style.min.css$2')
+                ))
         .pipe(gulpIf(
-            !isDevelopment,
-            replace(/(["'])(?:\.?\/)?\/?css\/style\.css((?:\?v=\d+)?)\1/g, '$1css/style.min.css$2$1')
+        !isDevelopment,
+        replace(/(["'])(?:\.?\/)?\/?css\/style\.css((?:\?v=\d+)?)\1/gi, '$1css/style.min.css$2$1')
         ))
         .pipe(gulp.dest('build'))
         .pipe(server.stream());
@@ -340,6 +344,3 @@ export function runDev(done) {
     isDevelopment = true;
     gulp.series(clean, compileProject, gulp.parallel(startServer, watchFiles))(done);
 }
-
-// export default runDev;
-

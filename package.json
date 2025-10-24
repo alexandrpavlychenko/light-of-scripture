@@ -17,18 +17,14 @@
         "bemlinter": "gulp --gulpfile gulpfile.mjs lintBem --silent",
         "lint": "npm run editorconfig && npm run stylelint && npm run w3c && npm run bemlinter",
         "start": "gulp --gulpfile gulpfile.mjs runDev",
-
         "start:3000": "cross-env BS_PORT=3000 gulp --gulpfile gulpfile.mjs runDev",
         "start:free": "cross-env BS_PORT=0 gulp --gulpfile gulpfile.mjs runDev",
         "start:fast": "cross-env FAST_DEV=1 gulp --gulpfile gulpfile.mjs runDev",
         "start:fast:3000": "cross-env FAST_DEV=1 BS_PORT=3000 gulp --gulpfile gulpfile.mjs runDev",
-
         "clean": "gulp clean",
         "build": "cross-env NODE_ENV=production gulp --gulpfile gulpfile.mjs buildProd",
-
         "preview": "gulp --gulpfile gulpfile.mjs buildProd && gulp --gulpfile gulpfile.mjs startServer",
         "preview:3000": "cross-env BS_PORT=3000 gulp --gulpfile gulpfile.mjs buildProd && cross-env BS_PORT=3000 gulp --gulpfile gulpfile.mjs startServer",
-
         "deploy": "npm run build && gh-pages -d build -b gh-pages -r https://github.com/alexandrpavlychenko/light-of-scripture.git"
     },
     "browserslist": [
