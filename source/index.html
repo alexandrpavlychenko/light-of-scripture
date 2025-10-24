@@ -1,120 +1,132 @@
 <!DOCTYPE html>
 <html lang="ru" data-version="2025.10.10" data-env="prod" class="page">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>ТАНАХ и БРИТ ХАДАША</title> <!--<base href="https://alexandrpavlychenko.github.io/light-of-scripture/">-->
-    <meta name="application-name" content="Light of Scripture for reading">
-    <meta name="color-scheme" content="light">
-    <meta name="theme-color" content="#ffffff">
-    <meta name="referrer" content="no-referrer">
-    <meta name="creator" content="Alexandr Pavlychenko">
-    <meta name="generator" content="Gulp 4 / Custom Static Build">
-    <meta name="robots" content="index, follow">
-    <meta name="description"
-          content="Строгие и возвышенные переводы текстов Танаха (Ветхого Завета), Брит Хадаша (Нового Завета) и всей Библии с учетом оригинала для глубокого изучения Писания.">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Light of Scripture — Свет Писания">
-    <meta property="og:url" content="https://alexandrpavlychenko.github.io/light-of-scripture/"> <!-- TODO: <meta property="og:image" content="#">
-        <meta property="og:image:width" content="1200">
-        <meta property="og:image:height" content="630"> -->
-    <meta property="og:description" content="Проект о библейских текстах">
-    <meta property="og:locale" content="ru"> <!--suppress HtmlUnknownTarget -->
-    <link href="css/style.min.css" rel="preload" as="style"> <!--suppress HtmlUnknownTarget -->
-    <link href="css/style.min.css" rel="stylesheet"> <!--suppress HtmlUnknownTarget -->
-    <!--suppress HtmlUnknownAttribute -->
-    <link rel="preload" href="img/messianic_magen_david.avif" type="image/avif" as="image" fetchpriority="high">
-    <!--suppress HtmlUnknownTarget --> <!--suppress HtmlUnknownAttribute -->
-    <link rel="preload" href="img/messianic_magen_david.webp" type="image/webp" as="image" fetchpriority="high">
-    <!--suppress HtmlUnknownAttribute -->
-    <link rel="preload" href="img/messianic_magen_david.png" type="image/png" as="image" fetchpriority="high">
-    <link rel="preload" href="fonts/forum.woff2" type="font/woff2" as="font" crossorigin="anonymous">
-    <link rel="preload" href="fonts/SourceSerif4Roman-Regular.woff2" type="font/woff2" as="font"
-          crossorigin="anonymous">
-    <link rel="preload" href="fonts/SourceSans3-Roman.woff2" type="font/woff2" as="font" crossorigin="anonymous">
-    <link rel="preload" href="js/script.js" as="script">
-    <link rel="apple-touch-icon" href="img/favicon/menorah-180x180.png" sizes="180x180">
-    <link rel="icon" type="image/svg+xml" href="img/icons/icon-menorah.svg">
-    <link rel="icon" type="image/x-icon" href="menorah.ico"> <!--suppress HtmlUnknownTarget -->
-    <link rel="manifest" href="manifest.webmanifest">
-    <link rel="canonical" href="https://alexandrpavlychenko.github.io/light-of-scripture/">
-</head>
-<body class="page__body">
-<header class="page__header page-header"><h1 class="visually-hidden">Переводы еврейской Библии на русский через призму
-    иврита и арамейского смысла Писания для глубокого изучения с комментариями</h1>
-    <div class="page-header__wrapper container">
-        <nav aria-label="Главное меню сайта" class="page-header__nav"><a href="index.html"
-                                                                         aria-label="На главную страницу"
-                                                                         class="page-header__logo logo">
-            <svg role="img" aria-label="Менора" width="52" height="52" class="logo__image">
-                <use href="img/icons/stack.svg#icon-menorah"></use>
-            </svg>
-        </a>
-            <ol class="page-header__main-menu">
-                <li class="page-header__item"><a href="#" class="page-header__item-link">Апокрифы</a>
-                    <!-- TODO: добавить подменю --> </li>
-                <li class="page-header__item"><a href="#" class="page-header__item-link">Предания</a>
-                    <ol hidden="" id="submenu-traditions" class="page-header__item-submenu">
-                        <li class="page-header__item-submenu-item"><a href="#" class="page-header__item-submenu-link">Мидраши</a>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>ТАНАХ и БРИТ ХАДАША</title> <!--<base href="https://alexandrpavlychenko.github.io/light-of-scripture/">-->
+        <meta name="application-name" content="Light of Scripture for reading">
+        <meta name="color-scheme" content="light">
+        <meta name="theme-color" content="#ffffff">
+        <meta name="referrer" content="no-referrer">
+        <meta name="creator" content="Alexandr Pavlychenko">
+        <meta name="generator" content="Gulp 4 / Custom Static Build">
+        <meta name="robots" content="index, follow">
+        <meta name="description"
+              content="Строгие и возвышенные переводы текстов Танаха (Ветхого Завета), Брит Хадаша (Нового Завета) и всей Библии с учетом оригинала для глубокого изучения Писания.">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Light of Scripture — Свет Писания">
+        <meta property="og:url" content="https://alexandrpavlychenko.github.io/light-of-scripture/"> <!-- TODO: <meta property="og:image" content="#">
+            <meta property="og:image:width" content="1200">
+            <meta property="og:image:height" content="630"> -->
+        <meta property="og:description" content="Проект о библейских текстах">
+        <meta property="og:locale" content="ru"> <!--suppress HtmlUnknownTarget -->
+        <link href="css/style.min.css" rel="preload" as="style"> <!--suppress HtmlUnknownTarget -->
+        <link href="css/style.min.css" rel="stylesheet"> <!--suppress HtmlUnknownTarget -->
+        <!--suppress HtmlUnknownAttribute -->
+        <link rel="preload" href="img/messianic_magen_david.avif" type="image/avif" as="image" fetchpriority="high">
+        <!--suppress HtmlUnknownTarget --> <!--suppress HtmlUnknownAttribute -->
+        <link rel="preload" href="img/messianic_magen_david.webp" type="image/webp" as="image" fetchpriority="high">
+        <!--suppress HtmlUnknownAttribute -->
+        <link rel="preload" href="img/messianic_magen_david.png" type="image/png" as="image" fetchpriority="high">
+        <link rel="preload" href="fonts/forum.woff2" type="font/woff2" as="font" crossorigin="anonymous">
+        <link rel="preload" href="fonts/SourceSerif4Roman-Regular.woff2" type="font/woff2" as="font"
+              crossorigin="anonymous">
+        <link rel="preload" href="fonts/SourceSans3-Roman.woff2" type="font/woff2" as="font" crossorigin="anonymous">
+        <link rel="preload" href="js/script.js" as="script">
+        <link rel="apple-touch-icon" href="img/favicon/menorah-180x180.png" sizes="180x180">
+        <link rel="icon" type="image/svg+xml" href="img/icons/icon-menorah.svg">
+        <link rel="icon" type="image/x-icon" href="menorah.ico"> <!--suppress HtmlUnknownTarget -->
+        <link rel="manifest" href="manifest.webmanifest">
+        <link rel="canonical" href="https://alexandrpavlychenko.github.io/light-of-scripture/">
+    </head>
+    <body class="page__body">
+        <header class="page__header page-header"><h1 class="visually-hidden">Переводы еврейской Библии на русский через призму
+            иврита и арамейского смысла Писания для глубокого изучения с комментариями</h1>
+            <div class="page-header__wrapper container">
+                <nav aria-label="Главное меню сайта" class="page-header__nav">
+                    <a href="index.html" aria-label="На главную страницу" class="page-header__logo logo">
+                        <svg role="img" aria-label="Менора" width="52" height="52" class="logo__image">
+                            <use href="img/icons/stack.svg#icon-menorah"></use>
+                        </svg>
+                    </a>
+                    <ol class="page-header__main-menu">
+                        <li class="page-header__item"><a href="#" class="page-header__item-link">Апокрифы</a>
+                            <!-- TODO: добавить подменю --> </li>
+                        <li class="page-header__item"><a href="#" class="page-header__item-link">Предания</a>
+                            <ol hidden="" id="submenu-traditions" class="page-header__item-submenu">
+                                <li class="page-header__item-submenu-item">
+                                    <a href="#" class="page-header__item-submenu-link">Мидраши</a>
+                                </li>
+                                <li class="page-header__item-submenu-item">
+                                    <a href="#" class="page-header__item-submenu-link">Каббала</a>
+                                </li>
+                            </ol>
                         </li>
-                        <li class="page-header__item-submenu-item"><a href="#" class="page-header__item-submenu-link">Каббала</a>
+                        <li class="page-header__item">
+                            <a href="#" class="page-header__item-link">Второканонические</a>
+                            <!-- TODO: добавить подменю -->
+                        </li>
+                        <li class="page-header__item"><a href="#" class="page-header__item-link page-header__item-link--uppercase">Танах</a>
+                            <!-- TODO: добавить подменю --> </li>
+                        <li class="page-header__item">
+                            <a href="#" class="page-header__item-link">
+                                <span class="page-header__item-link-uppercase">Брит Хадаша</span>
+                                <span class="page-header__item-link-ordinary">(Новый Завет)</span>
+                            </a> <!-- TODO: добавить подменю -->
                         </li>
                     </ol>
-                </li>
-                <li class="page-header__item"><a href="#" class="page-header__item-link">Второканонические</a>
-                    <!-- TODO: добавить подменю --> </li>
-                <li class="page-header__item"><a href="#"
-                                                 class="page-header__item-link page-header__item-link--uppercase">Танах</a>
-                    <!-- TODO: добавить подменю --> </li>
-                <li class="page-header__item"><a href="#" class="page-header__item-link"> <span
-                    class="page-header__item-link-uppercase">Брит Хадаша</span> <span
-                    class="page-header__item-link-ordinary">(Новый Завет)</span> </a> <!-- TODO: добавить подменю -->
-                </li>
-            </ol>
-        </nav>
-    </div>
-</header>
-<main class="page__main">
-    <div class="page__main-wrapper container">
-        <article class="page__messiah messiah" aria-labelledby="messiah-title"><h2 class="visually-hidden"
-                                                                                   id="messiah-title">Мессия</h2>
-            <picture class="messiah__magen messiah-magen"> <!--suppress HtmlUnknownTarget -->
-                <source type="image/avif" srcset="img/messianic_magen_david.avif"> <!--suppress HtmlUnknownTarget -->
-                <source type="image/webp" srcset="img/messianic_magen_david.webp">
-                <img class="messiah-magen__img" src="img/messianic_magen_david.png" alt="Мессианский Маген Давида."
-                     loading="eager" fetchpriority="high" width="2048" height="2048"></picture>
-            <ul class="messiah__selected-quotes messiah-selected-quotes">
-                <li class="messiah-selected-quotes__item">
-                    <blockquote class="messiah__quote messiah-quote"><p class="messiah-quote__main-content">Придите ко&nbsp;Мне,
-                        все&nbsp;труждающиеся и&nbsp;обремененные, и&nbsp;Я&nbsp;успокою&nbsp;вас</p>
-                        <footer class="messiah-quote__source"><cite class="messiah-quote__source-author">Йешуа ha'Машиах
-                            (Иисус Христос);</cite> <span class="messiah-quote__source-work">Бесорат Матитьягу (Евангелие от&nbsp;Матфея):&nbsp;11:28</span>
-                        </footer>
-                    </blockquote>
-                </li>
-                <li class="messiah-selected-quotes__item">
-                    <blockquote class="messiah__quote messiah-quote"><p class="messiah-quote__main-content">Он&nbsp;был
-                        изранен за&nbsp;грехи&nbsp;наши и&nbsp;мучим за&nbsp;беззакония&nbsp;наши, наказание мира нашего
-                        было на&nbsp;Нем, и&nbsp;ранами&nbsp;Его мы&nbsp;исцелились</p>
-                        <footer class="messiah-quote__source"><cite class="messiah-quote__source-author">Книга Пророка
-                            Йешайаhу (Исайи);</cite> <span class="messiah-quote__source-work">около&nbsp;3050&nbsp;год от&nbsp;сотворения мира (около&nbsp;700&nbsp;года&nbsp;до&nbsp;н.э.)</span>
-                        </footer>
-                    </blockquote>
-                </li>
-            </ul>
-        </article>
-    </div>
-</main>
-<footer class="page__footer page-footer">
-    <div class="page-footer__wrapper container">
-        <blockquote class="page-footer__quote footer-quote"><p class="footer-quote__main-content">"Да&nbsp;будет свет&nbsp;ваш
-            светить перед&nbsp;людьми"</p> <cite class="footer-quote__source"> <span
-            class="footer-quote__source-author">Йешуа haМашиах;</span> <span class="footer-quote__source-work">Бесорат Матитьягу:&mnsp;5:16</span>
-        </cite></blockquote>
-        <p class="page-footer__author"><span class="page-footer__author-text">Написать автору сайта:</span> <a
-            class="page-footer__author-link" href="mailto:apavlychenko23@gmail.com">apavlychenko23@gmail.com</a></p>
-    </div>
-</footer>
-<script src="js/script.js" defer="defer"></script>
-</body>
+                </nav>
+            </div>
+        </header>
+        <main class="page__main">
+            <div class="page__main-wrapper container">
+                <article class="page__messiah messiah" aria-labelledby="messiah-title">
+                    <h2 class="visually-hidden" id="messiah-title">Мессия</h2>
+                    <picture class="messiah__magen messiah-magen">
+                        <!--suppress HtmlUnknownTarget -->
+                        <source type="image/avif" srcset="img/messianic_magen_david.avif">
+                        <!--suppress HtmlUnknownTarget -->
+                        <source type="image/webp" srcset="img/messianic_magen_david.webp">
+                        <img class="messiah-magen__img" src="img/messianic_magen_david.png" alt="Мессианский Маген Давида." loading="eager" fetchpriority="high" width="2048" height="2048">
+                    </picture>
+                    <ul class="messiah__selected-quotes messiah-selected-quotes">
+                        <li class="messiah-selected-quotes__item">
+                            <blockquote class="messiah__quote messiah-quote">
+                                <p class="messiah-quote__main-content">Придите ко&nbsp;Мне, все&nbsp;труждающиеся и&nbsp;обремененные, и&nbsp;Я&nbsp;успокою&nbsp;вас</p>
+                                <footer class="messiah-quote__source">
+                                    <cite class="messiah-quote__source-author">Йешуа ha'Машиах (Иисус Христос);</cite>
+                                    <span class="messiah-quote__source-work">Бесорат Матитьягу (Евангелие от&nbsp;Матфея):&nbsp;11:28</span>
+                                </footer>
+                            </blockquote>
+                        </li>
+                        <li class="messiah-selected-quotes__item">
+                            <blockquote class="messiah__quote messiah-quote">
+                                <p class="messiah-quote__main-content">Он&nbsp;был изранен за&nbsp;грехи&nbsp;наши и&nbsp;мучим за&nbsp;беззакония&nbsp;наши, наказание мира нашего было на&nbsp;Нем, и&nbsp;ранами&nbsp;Его мы&nbsp;исцелились</p>
+                                <footer class="messiah-quote__source">
+                                    <cite class="messiah-quote__source-author">Книга Пророка Йешайаhу (Исайи);</cite>
+                                    <span class="messiah-quote__source-work">около&nbsp;3050&nbsp;год от&nbsp;сотворения мира (около&nbsp;700&nbsp;года&nbsp;до&nbsp;н.э.)</span>
+                                </footer>
+                            </blockquote>
+                        </li>
+                    </ul>
+                </article>
+            </div>
+        </main>
+        <footer class="page__footer page-footer">
+            <div class="page-footer__wrapper container">
+                <blockquote class="page-footer__quote footer-quote">
+                    <p class="footer-quote__main-content">"Да&nbsp;будет свет&nbsp;ваш светить перед&nbsp;людьми"</p>
+                    <cite class="footer-quote__source">
+                        <span class="footer-quote__source-author">Йешуа haМашиах;</span>
+                        <span class="footer-quote__source-work">Бесорат Матитьягу:&mnsp;5:16</span>
+                    </cite>
+                </blockquote>
+                <p class="page-footer__author">
+                    <span class="page-footer__author-text">Написать автору сайта:</span>
+                    <a class="page-footer__author-link" href="mailto:apavlychenko23@gmail.com">apavlychenko23@gmail.com</a>
+                </p>
+            </div>
+        </footer>
+        <script src="js/script.js" defer="defer"></script>
+    </body>
 </html>
