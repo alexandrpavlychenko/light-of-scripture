@@ -151,11 +151,11 @@ export function processStyles() {
     const plugins = [postUrl({ url: 'rebase' }), autoprefixer()];
     if (!isDevelopment) plugins.push(csso());
 
-    return gulp.src('source/sass/style.scss', { sourcemaps: isDevelopment })
+    return gulp.src('source/scss/style.scss', { sourcemaps: isDevelopment })
         .pipe(plumber({ errorHandler: onError('processStyles') }))
         .pipe(compileSass({ outputStyle: isDevelopment ? 'expanded' : 'compressed' }).on('error', compileSass.logError))
         .pipe(postcss(plugins))
-        .pipe(gulpIf(!isDevelopment, rename({ suffix: '.min' })))
+        .pipe(rename({ suffix: '.min' }))
         .pipe(gulp.dest('build/css', { sourcemaps: isDevelopment }))
         .pipe(server.stream());
 }
@@ -296,7 +296,7 @@ function reloadServer(done) {
 
 /* ---------- WATCHERS ---------- */
 function watchFiles(done) {
-    const w1 = gulp.watch('source/sass/**/*.scss', gulp.series(processStyles));
+    const w1 = gulp.watch('source/scss/**/*.scss', gulp.series(processStyles));
     gulp.watch('source/js/**/*.js', gulp.series(processScripts));
     gulp.watch('source/*.html', gulp.series(processMarkup, injectPicture, reloadServer));
     gulp.watch('source/manifest.json', gulp.series(copyAssets, reloadServer));
@@ -335,12 +335,10 @@ function compileProject(done) {
 }
 
 /* ---------- PUBLIC TASKS ---------- */
-export function buildProd(done) {
-    isDevelopment = false;
-    gulp.series(clean, compileProject)(done);
-}
+export const buildProd = gulp.series(clean, compileProject);
 
-export function runDev(done) {
-    isDevelopment = true;
-    gulp.series(clean, compileProject, gulp.parallel(startServer, watchFiles))(done);
-}
+export const runDev = gulp.series(
+    clean,
+    compileProject,
+    gulp.parallel(startServer, watchFiles)
+);

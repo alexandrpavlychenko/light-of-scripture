@@ -58,7 +58,7 @@
     }
 }
 
-.page-header__main-menu-item-link {
+.page-header__item-link {
     display: block;
     padding: 10px 0;
 
@@ -117,12 +117,12 @@
     }
 }
 
-.page-header__main-menu-item-link:last-child {
+.page-header__item-link:last-child {
     @media (min-width: var.$tablet-width) {
         padding: 10px 0 10px 10px;
     }
 }
 
-.page-header__main-menu-item-link-uppercase {
+.page-header__item-link-uppercase {
     text-transform: uppercase;
 }
