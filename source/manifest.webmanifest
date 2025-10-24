@@ -1,8 +1,8 @@
 {
-  "name": "Portfolio of Alexander Pavlychenko",
-  "short_name": "Portfolio",
-  "description": "Portfolio of Alexandr Pavlychenko — frontend developer focused on clean structure, semantic markup, maintainable code, and meticulous attention to detail.",
-  "lang": "en",
+  "name": "Light of Scripture",
+  "short_name": "LoS",
+  "description": "Strict and exalted translations of the Tanakh and the Brit Hadashah, rendered with regard to the original texts for profound study of the Scriptures.",
+  "lang": "ru",
   "start_url": "/",
   "id": "/",
   "scope": "/",
@@ -11,16 +11,18 @@
   "theme_color": "#ffffff",
   "icons": [
     {
-    "src": "img/favicon/favicon-192x192.png",
+    "src": "img/favicon/menorah-192x192.png",
     "sizes": "192x192",
-    "type": "image/png"
+    "type": "image/png",
+    "purpose": "any maskable"
     },
     {
-    "src": "img/favicon/favicon-512x512.png",
+    "src": "img/favicon/menorah-512x512.png",
     "sizes": "512x512",
-    "type": "image/png"
+    "type": "image/png",
+    "purpose": "any maskable"
     }
   ],
-  "categories": ["portfolio", "personal", "productivity", "documentation", "development"],
+  "categories": ["books", "education", "reference", "dedication"],
   "prefer_related_applications": false
 }
