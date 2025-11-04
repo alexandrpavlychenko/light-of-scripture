@@ -48,3 +48,6 @@ coverage/
 /source/package.json
 # Исключаем любые старые gulpfile-резервные
 gulpfile.js.bak
+
+# === LOCAL GIT INFRASTRUCTURE ===
+.githooks/
