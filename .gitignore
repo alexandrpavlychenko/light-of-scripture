@@ -53,3 +53,4 @@ gulpfile.js.bak
 .githooks/
 *.dump
 *.sql
+*.exe.stackdump
