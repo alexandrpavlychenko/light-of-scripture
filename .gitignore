@@ -51,3 +51,5 @@ gulpfile.js.bak
 
 # === LOCAL GIT INFRASTRUCTURE ===
 .githooks/
+*.dump
+*.sql
