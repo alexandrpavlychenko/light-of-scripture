@@ -16,18 +16,16 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20
+      - name: Clean old dependencies
+        run: rm -rf node_modules package-lock.json
 
       - name: Clear npm cache
         run: npm cache clean --force
 
-      - name: Remove node_modules and package-lock.json
-        run: |
-          rm -rf node_modules package-lock.json
-          npm install
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
 
       - name: Check Node version
         run: node -v && npm -v
