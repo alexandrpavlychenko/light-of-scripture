@@ -1,4 +1,4 @@
-name: Deploy to GitHub-Pages
+name: Project check
 
 on:
   push:
@@ -19,7 +19,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
 
       - name: Install dependencies
         run: npm ci
