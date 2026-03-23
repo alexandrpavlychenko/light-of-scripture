@@ -30,8 +30,12 @@ jobs:
       - name: Check Node version
         run: node -v && npm -v
 
+      - name: List files
+        run: ls -la
+
       - name: Install dependencies
-        run: npm ci
+        run: npm install
+
 
       - name: Run checks
         run: npm run lint
