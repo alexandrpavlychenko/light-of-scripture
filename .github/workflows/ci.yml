@@ -15,32 +15,32 @@ jobs:
 
         steps:
             - name: Checkout
-              uses: actions/checkout@v3
+            uses: actions/checkout@v3
 
             - name: Setup Node
-              uses: actions/setup-node@v3
-              with:
+            uses: actions/setup-node@v3
+            with:
                 node-version: '24'
                 cache: 'npm'
 
             - name: Check Node version
-              run: node -v && npm -v
+            run: node -v && npm -v
 
             - name: Install dependencies
-              run: npm ci
+            run: npm ci
 
             - name: Run EditorConfig check
-              run: npm run editorconfig
+            run: npm run editorconfig
 
             - name: Run lint
-              run: npm run lint
+            run: npm run lint
 
             - name: Build project
-              run: npm run build
+            run: npm run build
 
             - name: Deploy to GitHub Pages
-              uses: JamesIves/github-pages-deploy-action@v4
-              with:
+            uses: JamesIves/github-pages-deploy-action@v4
+            with:
                 token: ${{ secrets.GITHUB_TOKEN }}
                 folder: ./build
                 branch: gh-pages
