@@ -1,0 +1,51 @@
+@use "../global/variables.scss" as var;
+@use "../global/mixins.scss" as mix;
+
+.page {
+    margin: 0;
+    height: 100dvh;
+
+    background-color: var.$color-verily-white;
+
+    @media (min-width: var.$tablet-width) {
+        scroll-padding-top: calc(128px + env(safe-area-inset-top));
+    }
+
+    @media (min-width: var.$desktop-width) {
+        scroll-padding-top: calc(8dvh + env(safe-area-inset-top));
+    }
+}
+
+.page__body {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    margin: 0;
+    width: 100vw;
+    min-width: 320px;
+    min-height: 100dvh;
+
+    @include mix.font-main-text;
+
+    @media (min-width: var.$tablet-width) {
+        grid-template-rows: 1fr auto;
+    }
+
+    @media (min-width: var.$desktop-width) {
+        display: block;
+    }
+}
+
+.page__main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    @media (min-width: var.$tablet-width) {
+        padding: calc(128px + env(safe-area-inset-top)) 0 0;
+    }
+
+    @media (min-width: var.$desktop-width) {
+        min-height: calc(100dvh - (8dvh * 2));
+        padding: calc(8dvh + env(safe-area-inset-top)) 0 calc(8dvh + env(safe-area-inset-top));
+    }
+}
